@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import requests
 import json
 import os
@@ -9,6 +9,7 @@ import sys
 sys.path.append('..')
 from kakaoWeb.settings import BASE_DIR
 from pathlib import Path
+
 
 # Create your views here.
 kakao_speech_url = "https://kakaoi-newtone-openapi.kakao.com/v1/recognize"
@@ -29,7 +30,9 @@ tts_headers = {
 def mainpage(request):
     return render(request, 'mainpage.html')
 
+
 def kakao_stt( style, data):
+    # 음성인식중일때, 'Say something, Recording 등의 메세지 필요'
     if style == 'file':
         filename = data
         with open(filename, 'rb') as fp:
@@ -43,8 +46,11 @@ def kakao_stt( style, data):
         text = ''
         print('error! because ', res.json())
     else:
-        result_json_string = res.text[res.text.index('{"type":"finalResult"'):res.text.rindex('}') + 1]
-        text = json.loads(result_json_string).get('value')
+        try:
+            result_json_string = res.text[res.text.index('{"type":"finalResult"'):res.text.rindex('}') + 1]
+            text = json.loads(result_json_string).get('value')
+        except ValueError as e:
+            return "Value Error"
     # text를 model에 저장하기
     history = Recommend_history()
     history.recommend = text
@@ -65,6 +71,21 @@ def chat(request):
             f.write(res.content)
     return render(request, 'chat.html', {'text':text, 'result':result})
 
+def chat_two(request):
+    SAVE_FILE = os.path.join(BASE_DIR, 'kakaoWeb','static','wav','hi.wav')
+    audio = get_speech()
+    text  = kakao_stt('stream',audio)
+    print('음성인식 결과:', text)
+    if text == 'Value Error':
+        return redirect('stt:error')
+    result = None
+    if KEYWORD_KAKAO in text :
+        result = '네 안녕하세요 카카오 음성인식입니다.'
+        data = f"<speak><prosody rate='slow' volume = 'soft'>{result}</prosody></speak>".encode('utf-8').decode('latin1')
+        res = requests.post(kakao_tts_url, headers=tts_headers, data=data)
+        with open(SAVE_FILE,'wb') as f:
+            f.write(res.content)
+    return render(request, 'chat.html', {'text':text, 'result':result})
 
 # 마이크로 음성 수집하기
 # 함수 정의부
@@ -84,6 +105,8 @@ def get_speech():
         audio = result.get_raw_data()
     return audio
 
+def error(request):
+    return render(request, 'error.html')
 # 함수 호출부
 # audio = get_speech()
 # text = kakao_stt(KAKAO_APP_KEY, 'stream', audio)
