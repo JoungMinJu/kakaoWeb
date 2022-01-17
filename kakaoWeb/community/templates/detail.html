@@ -29,7 +29,7 @@
         </div>
         <div class="col-lg-6">
             <div class="as-text ap-text">
-                <p class="f-para">{{community.body}}</p>
+                <p class="f-para" >{{community.body}}</p>
             </div>
         </div>
         </div>
@@ -44,7 +44,7 @@
         <center>
             <form action="{% url 'community:create_comment' community.id %}" method = "POST">
                 {% csrf_token %}
-                <textarea name="content" placeholder = "댓글 내용 입력" style="width:1100px"></textarea>
+                <textarea name="content" placeholder = "댓글 내용 입력" style="width:100%"></textarea>
                 <button type="submit" value="확인">댓글</button>
             </form>
         </center>
