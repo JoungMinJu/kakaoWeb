@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+
+
+<section id="intro" class="main style1  fullscreen" style="height:100%;">
+{% load community_extras %}
+<div>
+    <form method="get">
+        <p>{{ filtered_community.form.as_p }}</p>
+        <button class="search" type="submit" style=" height:35px; font-size:14px;">검색</button><br><br>
+    </form>
+    <table class="table">
+        <thead>
+            <tr class="thead-blue">
+                <th>작성자</th>
+                <th>제목</th>
+                <th>작성일시</th>
+                <th>조회수</th>
+                <th>좋아요</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for community in person_page_obj %}
+            <tr>
+                <td>{{community.writer}}</td>
+                <td class="title">
+                    <a href="{% url 'community:detail' community.id %}">
+                        {{community.title}}
+                    </a>
+                </td>
+                <td>{{community.pub_date}}</td>
+                <td style="text-align: center;">{{community.view_count}}</td>
+                <td style="text-align: center;"><a href ="{% url 'community:community_like' community.id %}">
+                    {% if user in community.like_user_set.all %}
+                        <i class="fas fa-heart"></i>
+                    {% else %}
+                        <i class="far fa-heart"></i>
+                    {% endif %}
+                </a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button class="write"><a href="{% url 'community:new' %}">글쓰기</a></button>
+    <br><br><br><br>
+    <nav>
+        <ul class = "pagination justify-content-center">
+            {% if person_page_obj.has_previous %}
+                <li class = "page-item">
+                    <a class = "page-link disabled" href="{% my_url person_page_obj.previous_page_number 'page' request.GET.urlencode %}">이전</a>
+                </li>
+            {% else %}
+                <li class = "page-item disabled">
+                    <a class = "page-link disabled" href = "#">이전</a>
+                </li>
+            {% endif %}
+
+            <li class = "page-item active">
+                <a class = "page-link" style="background: #e32879; border: none;">{{person_page_obj.number}}/{{person_page_obj.paginator.num_pages}}</a>
+            </li>
+
+            {% if person_page_obj.has_next %}
+                <li class = "page-item">
+                    <a class = "page-link disabled" href="{% my_url person_page_obj.next_page_number 'page' request.GET.urlencode %}">다음</a>
+                </li>
+            {% else %}
+                <li class = "page-item disabled">
+                    <a class = "page-link disabled" href = "#">다음</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+</section>
+
+<style>
+
+
+.btn-area{
+    text-align: center;
+}
+.btn-area button{
+    background-color: #e32879;
+    color: #FFF;
+    font-size: 20px;
+    border: none;
+    border-radius: 10px;
+    width: 200px;
+    height: 50px;
+}
+.btn-area button a {
+    color: #fff;
+}
+.search, .write {
+    background-color: #e32879;
+    color: #FFF;
+    border: none;
+    border-radius: 3px;
+}
+.write a {
+    color: #fff;
+}
+th, td{
+    color:#fff;
+}
+td a {
+    color: #e32879;
+}
+
+
+</style>
+{% endblock %}

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>음성인식 API</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="{% static 'css/main.css'%}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <noscript><link rel="stylesheet" href="{% static 'css/noscript.css'%}" /></noscript>
+     <style>
+    /* signup_container*/
+
+    .signup_container {
+      display: flex;
+      flex-direction: column;
+      margin: 0 auto;
+      margin-top: 40px;
+      width: 600px;
+
+      text-align: center;
+    }
+
+    .signup_title {
+      font-weight: 100;
+      margin-top: 30px;
+      font-size: 30px;
+      margin-bottom: 50px;
+      font-folor : black;
+    }
+
+    .signup_input_container {
+      display: block;
+      margin: 0 auto;
+      width: 50%;
+
+      margin-bottom: 20px;
+    }
+
+    .signup_input_title {
+      text-align: left;
+      margin-left: 20px;
+      font-size: 14px;
+      margin-bottom: 10px;
+      color: black;
+      text-align:center;
+    }
+        input::placeholder {
+            font-size :13px;
+            color :gray;
+            text-align:center;
+        }
+    .signup {
+      width: 250px;
+      height: 40px;
+      background-color: white;
+      border: 1px solid lightgray;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 5px;
+      font-size: 10px;
+    }
+
+    #hobbyBtn {
+      margin-top: 10px;
+      width: 100px;
+      color: white;
+      background-color: #4ccd97;
+      padding: 6px;
+      border: none;
+      border-radius: 8px;
+    }
+
+      #confirmBtn {
+          margin-top: 10px;
+          width: 30%;
+          color: white;
+          background-color: #ff8668;
+          font-size : 15px;
+          text-align : center;
+          border: none;
+          border-radius: 8px;
+          margin-bottom: 30px;
+          font-weight: bold;
+      }
+
+    .sign {
+      margin-top: 10px;
+      width: 250px;
+      color: white;
+      background-color: #ff8668;
+      padding: 6px;
+      border: none;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+<header id="header">
+    <h1><a href = "{% url 'stt:intro' %}">AI ChatBot</a></h1>
+</header>
+    <div style="text-align: center;  ">
+        {% if error != None %}
+        ✔ {{ error }}
+        {% endif %}
+    </div>
+<section id="intro" class="main style1 dark fullscreen">
+  <div class="container" data-aos="zoom-in" data-aos-delay="100">
+    <div class="signup_container">
+      <form action="{%url 'user:login' %}" method="POST">
+        {%csrf_token%}
+        <div class="signup_title" style="color:black;">로그인</div>
+
+        <div class="signup_input_container">
+          <div class="signup_input_title">아이디</div>
+          <input type="text" class="signup" name="username" placeholder="아이디">
+        </div>
+        <br>
+        <div class="signup_input_container">
+          <div class="signup_input_title">비밀번호</div>
+          <input type="password" class="signup" name="password" placeholder="비밀번호">
+
+        </div>
+        <br>
+        <button id="confirmBtn" type="submit">완료</button>
+      </form>
+    </div>
+  </div>
+</section><!-- End Hero -->
+
+
+</body>
+</html>

@@ -30,6 +30,11 @@ tts_headers = {
 def mainpage(request):
     return render(request, 'mainpage.html')
 
+def intro(request):
+    return render(request, 'intro.html')
+
+def gate(request):
+    return render(request, 'gate.html')
 
 def kakao_stt( style, data):
     # 음성인식중일때, 'Say something, Recording 등의 메세지 필요'
@@ -40,7 +45,10 @@ def kakao_stt( style, data):
     else:
         audio = data
     # 카카오 음성 api 요청
-    res = requests.post(kakao_speech_url, headers = headers, data = audio)
+    try:
+        res = requests.post(kakao_speech_url, headers = headers, data = audio)
+    except :
+        return "OS Error"
     # 요청에 실패했다면
     if res.status_code != 200:
         text = ''
@@ -73,11 +81,17 @@ def chat(request):
 
 def chat_two(request):
     SAVE_FILE = os.path.join(BASE_DIR, 'kakaoWeb','static','wav','hi.wav')
-    audio = get_speech()
-    text  = kakao_stt('stream',audio)
+    try:
+        audio = get_speech()
+        text = kakao_stt('stream', audio)
+    except :
+        text = "OS Error"
+    # text  = kakao_stt('stream',audio)
     print('음성인식 결과:', text)
     if text == 'Value Error':
         return redirect('stt:error')
+    elif text == 'OS Error':
+        return redirect('stt:error_two')
     result = None
     if KEYWORD_KAKAO in text :
         result = '네 안녕하세요 카카오 음성인식입니다.'
@@ -107,6 +121,10 @@ def get_speech():
 
 def error(request):
     return render(request, 'error.html')
+
+def error_two(request):
+    return render(request, 'error_two.html')
+
 # 함수 호출부
 # audio = get_speech()
 # text = kakao_stt(KAKAO_APP_KEY, 'stream', audio)

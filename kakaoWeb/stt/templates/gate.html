@@ -3,17 +3,16 @@
 {% load static %}
 	<!-- Intro -->
 		<section id="intro" class="main style1 dark fullscreen">
-			<div class="content">
-				<header>
-					<h2>ERROR !</h2>
-					<p>A value error has occurred. Please connect the microphone and speak louder.</p>
-				</header>
-				<br><br>
-				<body>
-					<a href="{%url 'stt:mainpage' %}" class="button style2 ">
-						Go back to the main page.
+			<div class="content flex-container">
+					<a href="{%url 'stt:mainpage' %}" class="button style2 " style="margin-bottom: 30px;">
+						채팅하기
 					</a>
-				</body>
+
+					<a href="{% url 'community:show' %}" class="button style2 "style="margin-bottom: 10px;">
+						커뮤니티
+					</a>
+
+			  <img src="{%static 'css/images/robot.png' %}" alt="Avatar" style="width : 25%; height : 20%; margin-top : 100px;">
 			</div>
 		</section>
 	<!-- Footer -->
@@ -22,6 +21,7 @@
 					<li>&copy; Untitled</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
 				</ul>
 		</footer>
+	<!-- Scripts -->
 		<script src="{% static 'js/jquery.min.js' %}"></script>
 		<script src="{% static 'js/jquery.poptrox.min.js' %}"></script>
 		<script src="{% static 'js/jquery.scrolly.min.js' %}"></script>
@@ -30,6 +30,5 @@
 		<script src="{% static 'js/breakpoints.min.js' %}"></script>
 		<script src="{% static 'js/util.js' %}"></script>
 		<script src="{% static 'js/main.js' %}"></script>
-
 {% endblock %}
 

@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<section class="services-section spad" style="height: 100%;">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="section-title" style="margin-bottom: 30px;">
+                <img src="{% static 'images/write.png' %}">
+                <h2>글 수정</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6" style="margin-right: auto; margin-left: auto;">
+    <div class="write service-item">
+        <form action="{% url 'community:update' community.id %}" method="post" enctype="multipart/form-data">
+            {%csrf_token%}
+            <table>
+                <tr>
+                    <td class="subject">제목</td>
+                    <td><textarea type="text" name="title" cols="30" rows="1">{{community.title}}</textarea></td>
+                </tr>
+                <tr>
+                    <td class="gender subject">성별</td>
+                    <td>
+                        <select name="gender">
+                            <option disabled>---성별---</option>
+                            <option value="남자">남자</option>
+                            <option value="여자">여자</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="weather">날씨</td>
+                    <td>
+                        <select name="weather">
+                            <option disabled>------날씨------</option>
+                            <option value="맑음">맑음</option>
+                            <option value="비">비</option>
+                            <option value="흐림">흐림</option>
+                            <option value="우박">우박</option>
+                            <option value="눈">눈</option>
+                            <option value="안개">안개</option>
+                            <option value="소나기">소나기</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="subject">사진</td>
+                    <td><input type="file" name = "image"></td>
+                </tr>
+                <tr>
+                    <td class="subject">내용</td>
+                    <td><textarea type="text" name="body" id="" cols="45" rows="10">{{community.body}}</textarea></td>
+                </tr>
+                <tr>
+                    <td class="button" colspan="2"><button type="submit">수정</button></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</section>
+<style>
+.write{
+    height: fit-content;
+    background: #222222;
+}
+table{
+    margin-left: auto;
+    margin-right: auto;
+}
+table td{
+    color:#fff;
+    padding-bottom: 20px;
+    text-align: left;
+}
+.subject{
+    width: 20%;
+}
+.button{
+    text-align: center;
+}
+.button button{
+    background: #e32879;
+    color:#fff;
+    border: none;
+    border-radius: 10px;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>음성인식 API</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="{% static 'css/main.css'%}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <noscript><link rel="stylesheet" href="{% static 'css/noscript.css'%}" /></noscript>
+    <style>
+        .signup_container {
+            display: flex;
+            flex-direction: column;
+            margin: 0 auto;
+            margin-top: 40px;
+            text-align: center;
+            overflow: auto;
+        }
+        .signup_title {
+            font-weight: 100;
+            margin-top: 30px;
+            font-size: 150px;
+            margin-bottom: 50px;
+        }
+        .signup_input_container {
+            display: block;
+            margin: 0 auto;
+            height: 3%;
+            margin-bottom: 20px;
+        }
+        .signup_input_title {
+            background-color : white;
+            border:none;
+            width: 200px;
+            text-align: center;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .signup {
+            width: 60%;
+            height: 40px;
+            background-color: white;
+            border: 1px solid lightgray;
+            border-radius: 8px;
+            padding: 10px;
+            text-align : center;
+            font-size : 19px;
+            margin-bottom: 5px;
+            font-size: 10px;
+        }
+
+        #confirmBtn {
+            margin-top: 10px;
+            width: 30%;
+            color: white;
+            background-color: #ff8668;
+            font-size : 15px;
+            text-align : center;
+            border: none;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+        input::placeholder {
+            font-size :13px;
+        }
+    </style>
+</head>
+<body>
+<!-- Intro -->
+<header id="header">
+    <h1><a href = "{% url 'stt:intro' %}">AI ChatBot</a></h1>
+</header>
+
+    <div style="text-align: center;  ">
+        {% if error != None %}
+        ✔ {{ error }}
+        {% endif %}
+    </div>
+
+<section id="intro" class="main style1 dark fullscreen">
+<div style="background-color:white; width : 50%;">
+        <div class="signup_container">
+            <form action="{%url 'user:signup' %}" method="POST">
+                {%csrf_token%}
+                <div class="signup_input_container">
+                    <input class="signup_input_title" disabled value="아이디"><br>
+                    <input type="text" class="signup" name="username" placeholder="아이디">
+                </div>
+                <div class="signup_input_container">
+                    <input class="signup_input_title" disabled value="비밀번호"><br>
+
+                    <input type="password" class="signup" name="password1" placeholder="비밀번호">
+                </div>
+                <div class="signup_input_container">
+                    <input class="signup_input_title" disabled value="비밀번호 확인"><br>
+
+                    <input type="password" class="signup" name="password2" placeholder="비밀번호 확인">
+                </div>
+                <div class="signup_input_container">
+                    <input class="signup_input_title" disabled value="닉네임"><br>
+
+                    <input type="text" class="signup" name="nickname" placeholder="닉네임">
+                </div>
+                <div class="signup_input_container">
+                    <input class="signup_input_title" disabled value="이름"><br>
+
+                    <input type="text" class="signup" name="name" placeholder="이름">
+                </div>
+                <div class="signup_input_container">
+                    <input class="signup_input_title" disabled value="나이"><br>
+
+                    <input type="number" class="signup" name="age" placeholder="나이">
+                </div>
+                <button id="confirmBtn" type="submit">완료</button>
+            </form>
+        </div>
+</div>
+</section><!-- End Hero -->
+
+</body>
+</html>
+
+
+

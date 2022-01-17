@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<section id="intro" class="main style1 fullscreen" style="height:100%;">
+    <div>
+    <div  style="margin-bottom: 30px;">
+        <img src="{% static 'images/write.png' %}">
+    </div>
+    <div class="write service-item">
+        <form action="{% url 'community:create' %}" method="post" enctype="multipart/form-data">
+            {%csrf_token%}
+            <table>
+                <tr>
+                    <td class="subject">제목</td>
+                    <td><textarea type="text" name="title" cols="30" rows="1" style="min-height:1em;"></textarea></td>
+                </tr>
+                <tr>
+                    <td class="category">카테고리</td>
+                    <td>
+                        <select name="category" style="font-color:black;">
+                            <option disabled>------카테고리------</option>
+                            <option value="후기" style="color:black;">후기</option>
+                            <option value="사담" style="color:black;">사담</option>
+                            <option value="질문" style="color:black;">질문</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="subject">사진</td>
+                    <td><input type="file" name = "image"></td>
+                </tr>
+                <tr>
+                    <td class="subject">내용</td>
+                    <td><textarea type="text" name="body" id="" cols="45" rows="10"></textarea></td>
+                </tr>
+            </table>
+
+            <button type="submit" style="background: #e32879;">제출</button>
+
+        </form>
+    </div>
+        </div>
+</section>
+<style>
+.write{
+    height: fit-content;
+
+}
+table{
+    margin-left: auto;
+    margin-right: auto;
+}
+table td{
+    color:#fff;
+    padding-bottom: 20px;
+    text-align: left;
+}
+.subject{
+    width: 20%;
+}
+.button{
+    text-align: center;
+}
+.button button{
+    background: #e32879;
+    color:#fff;
+    border: none;
+    border-radius: 10px;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<section id="intro" class="main style1 fullscreen" style="height:100%;">
+    <div class="container">
+        <div class="container" style="background:#C4BDBD; text-align:left;">
+        <p>조회수 : {{ community.view_count }}</p>
+        {% if community.writer %}
+            <p>작성자 : {{ community.writer }}</p>
+        {% else %}
+            <p>작성자 : 알 수 없음</p>
+        {% endif %}
+        <p>작성일시 : {{community.pub_date}}</p>
+        <a href ="{% url 'community:community_like' community.id %}?redirect_to=detail">
+            {% if user in community.like_user_set.all %}
+                <i class="fas fa-heart"></i>
+            {% else %}
+                <i class="far fa-heart"></i>
+            {% endif %}
+        </a>
+            </div>
+        <div class="row">
+        <div class="col-lg-6">
+            <div class="as-pic">
+                {% if community.image %}
+                <div class="image" style="background: #222222;"><img src="{{ community.image.url }}" style="width: 570px; height:430px; object-fit: contain;" alt="사진"></div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="as-text ap-text">
+                <p class="f-para">{{community.body}}</p>
+            </div>
+        </div>
+        </div>
+        <center>
+            {% if user == community.writer %}
+            <button><a href="{% url 'community:edit' community.id %}">수정하기</a></button>
+            <button><a href="{% url 'community:delete' community.id %}">삭제하기</a></button>
+            {% endif %}
+            <button><a href="{% url 'community:show' %}">목록</a></button>
+        </center>
+
+        <center>
+            <form action="{% url 'community:create_comment' community.id %}" method = "POST">
+                {% csrf_token %}
+                <textarea name="content" placeholder = "댓글 내용 입력" style="width:1100px"></textarea>
+                <button type="submit" value="확인">댓글</button>
+            </form>
+        </center>
+        <div>
+            {% for comment in comments %}
+            <div>
+                <p>작성자 : {{comment.writer}}</p>   <p style="font-size: small;">{{comment.created_at}}</p>
+                <p>{{comment.content}}</p>
+                {% if user == comment.writer %}
+                    <button><a href="{% url 'community:update_comment' comment.id %}">댓글 수정</a></button>
+    			    <button><a href="{% url 'community:delete_comment' comment.id %}">댓글 삭제</a></button>
+    			{% endif %}<hr>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<style>
+    hr{
+        background:#fff;
+    }
+    center{
+        margin-bottom: 10px;
+    }
+    .row{
+        margin-bottom: 15px;
+    }
+    a{
+        color:#e32879;
+    }
+    p{
+        margin-bottom: 0px;
+    }
+    button{
+        background:#e32879;
+        border: none;
+        color:#fff;
+        border-radius: 5px;
+    }
+    button a{
+        color:#fff;
+    }
+    .f-para{
+        word-break: break-all;
+    }
+</style>
+{% endblock %}
