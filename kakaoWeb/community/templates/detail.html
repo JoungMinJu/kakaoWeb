@@ -33,6 +33,7 @@
             </div>
         </div>
         </div>
+        <br><br><br>
         <center>
             {% if user == community.writer %}
             <button><a href="{% url 'community:edit' community.id %}">수정하기</a></button>
@@ -48,11 +49,13 @@
                 <button type="submit" value="확인">댓글</button>
             </form>
         </center>
-        <div>
+        <div >
             {% for comment in comments %}
-            <div>
-                <p>작성자 : {{comment.writer}}</p>   <p style="font-size: small;">{{comment.created_at}}</p>
+            <div style="background : #E6E6E6;">
+                <p style="font-size: small; text-align:left;">작성자 : {{comment.writer}}</p>   <p style="font-size: small; text-align:left;">{{comment.created_at}}</p>
+                <br>
                 <p>{{comment.content}}</p>
+                <br>
                 {% if user == comment.writer %}
                     <button><a href="{% url 'community:update_comment' comment.id %}">댓글 수정</a></button>
     			    <button><a href="{% url 'community:delete_comment' comment.id %}">댓글 삭제</a></button>
@@ -60,6 +63,9 @@
             </div>
             {% endfor %}
         </div>
+
+
+
     </div>
 </section>
 <style>

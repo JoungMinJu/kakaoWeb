@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib import auth
+from django.core import serializers
 from .models import User
 from django.contrib.auth.decorators import login_required
 # Create your views here.
@@ -54,7 +55,7 @@ def login_view(request):
 
         if User is not None:
             auth.login(request, User)
-            return redirect('stt:mainpage')
+            return redirect('stt:gate')
         else:
             res_data['error'] = '로그인을 다시 해주세요'
     return render(request, 'login.html', res_data)

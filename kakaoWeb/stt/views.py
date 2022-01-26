@@ -79,6 +79,7 @@ def chat(request):
             f.write(res.content)
     return render(request, 'chat.html', {'text':text, 'result':result})
 
+
 def chat_two(request):
     SAVE_FILE = os.path.join(BASE_DIR, 'kakaoWeb','static','wav','hi.wav')
     try:
@@ -108,6 +109,7 @@ def get_speech():
     recognizer = sr.Recognizer()
     #마이크 설정
     microphone = sr.Microphone(sample_rate = 16000)
+    qA
     #마이크 소음 수치 반영
     with microphone as source :
         recognizer.adjust_for_ambient_noise(source)
