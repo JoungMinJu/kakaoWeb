@@ -5,6 +5,11 @@ import os
 import wave
 import speech_recognition as sr
 from .models import Recommend_history
+from django.http import Http404
+from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .serializers import RecomSerializer
 import sys
 sys.path.append('..')
 from kakaoWeb.settings import BASE_DIR
@@ -16,12 +21,10 @@ kakao_speech_url = "https://kakaoi-newtone-openapi.kakao.com/v1/recognize"
 kakao_tts_url = 'https://kakaoi-newtone-openapi.kakao.com/v1/synthesize'
 rest_api_key = os.environ.get('SECRET_KEY')
 KEYWORD_KAKAO = '카카오'
-
 headers = {
     "Content-Type": "application/octet-stream",
     "X-DSS-Service": "DICTATION",
     "Authorization": "KakaoAK " +str(rest_api_key),}
-
 tts_headers = {
     'Content-Type' : 'application/xml',
     'Authorization' : 'KakaoAK ' + rest_api_key,}
@@ -30,11 +33,14 @@ tts_headers = {
 def mainpage(request):
     return render(request, 'mainpage.html')
 
+
 def intro(request):
-    return render(request, 'intro.html')
+    return render(request, 'recordTest.html')
+
 
 def gate(request):
     return render(request, 'gate.html')
+
 
 def kakao_stt( style, data):
     # 음성인식중일때, 'Say something, Recording 등의 메세지 필요'
@@ -121,59 +127,10 @@ def get_speech():
         audio = result.get_raw_data()
     return audio
 
+
 def error(request):
     return render(request, 'error.html')
 
+
 def error_two(request):
     return render(request, 'error_two.html')
-
-# 함수 호출부
-# audio = get_speech()
-# text = kakao_stt(KAKAO_APP_KEY, 'stream', audio)
-# print('음성 인식 결과 :' + text)
-
-
-# [필요한 기능은 구현하고 def do()로 선언하기]
-## import javis_food_recommender
-## javis_food_recommender.do()
-
-# [.py 수정하면 모듈 reload 해야한다]
-## from imp import reload
-## reload(javis_food_recommender)
-## import javis_food_recommneder
-## javis_food_recommender.do()
-
-
-#################################
-#           참조                 #
-#################################
-
-# [음성 인식 비서 실행하기]
-# KEYWORD_KAKAO = '카카오'
-
-# 음성 수집
-# audio = get_speech(0
-
-# stt
-# command = kakao_stt(KAKAO_APP_KEY, 'stream', audio)
-# print("명령어 :" + command)
-# print('명령을 수행합니다.')
-
-# 음성 분석
-# if KEYWORD_KAKAO in command:
-#   print('카카오를 실행합니다.')
-# else:
-#   print('명령을 알 수 없습니다.')
-
-# [카카오 음성 tts]
-# # tts
-# text = '안녕하세요. 제 이름은 카카오 음성합성 API입니다. 만나서 반가워요'
-# # 입력한 텍스트를 변환하여 api를 호출
-# data = f"<speak>{text}</speak>".encode('utf-8').decode('latin1')
-# res = requests.post(url, headers=tts_headers, data=data)
-# #호출하며 불러온 결과값을 저장
-# with open('hello_kakao.wav','wb') as f:
-#     f.write(res.content)
-# # 읽기
-# wn = Audio('hello_kakao.wav',autoplay=True)
-# display(wn)

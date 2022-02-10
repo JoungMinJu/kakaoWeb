@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'user.apps.UserConfig',
     'stt',
     'community',
+    'drf_yasg',
     # 'user',
 ]
 

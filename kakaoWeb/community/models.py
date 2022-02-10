@@ -21,7 +21,7 @@ class Community(models.Model):
     like_user_set = models.ManyToManyField(User, blank=True, related_name='like_user_set', through ='Like')
     category = models.CharField(max_length = 1000, choices=CATEGORY)
 
-    def __strt__(self):
+    def __str__(self):
         return self.title
     def summar(self):
         return self.body[:20]
